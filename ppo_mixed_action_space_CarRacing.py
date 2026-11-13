@@ -12,21 +12,21 @@ import gymnasium as gym
 
 N_STACK = K = 4
 H,W = 64,64
-num_envs = 4
-num_steps = 128
+num_envs = 32
+num_steps = 256
 batch_size = num_envs*num_steps
-num_minibatches = 4
+num_minibatches = 16
 
 update_epochs = 4
 gamma = 0.999
-gae_lambda = 0.98
+gae_lambda = 0.95
 clip_coef = 0.2
 vf_coef = 0.5
 ent_coef_c = 0.001
 ent_coef_d = 0.01 
 learning_rate = 3e-4
 max_grad_norm = 0.5
-total_timesteps = 3000000
+total_timesteps = 2000000
 hidden_dim=128
 seed = 42
 
@@ -192,9 +192,15 @@ class Critic(nn.Module):
 
 
 class ActionRepeat(gym.Wrapper):
-	def __init__(self,env,k=K):
+	def __init__(self,env,k=K,patience=30):
 		super().__init__(env)
 		self.k = k
+		self.patience = patience
+		self.idle = 0
+
+	def reset(self,**kwargs):
+		self.idle = 0
+		return self.env.reset(**kwargs)
 
 	def step(self,action):
 		total = 0.0
@@ -203,6 +209,9 @@ class ActionRepeat(gym.Wrapper):
 			total += r
 			if term or trunc:
 				break
+		self.idle = 0 if total > 0 else self.idle + 1
+		if self.idle >= self.patience:
+			trunc = True
 		return obs, total, term, trunc, info
 
 def make_env(name,idx,env_kwargs,seed=seed):
@@ -280,7 +289,14 @@ class Agent():
 		self.buffer.calculate_advantage(next_value)
 
 
+	def save(self,path):
+		torch.save({"base": self.base.state_dict(), "actor": self.actor.state_dict(), "critic": self.critic.state_dict()},path)
 
+	def load(self,path):
+		ckpt = torch.load(path,map_location=self.device)
+		self.base.load_state_dict(ckpt["base"])
+		self.actor.load_state_dict(ckpt["actor"])
+		self.critic.load_state_dict(ckpt["critic"])
 
 
 	def learn(self):
@@ -313,8 +329,9 @@ class Agent():
 	def train(self,total_timesteps=total_timesteps):
 		num_iterations = total_timesteps//batch_size
 		obs, _ = self.envs.reset(seed=seed)
-		self.frames.initialize(obs)  # einmalig
+		self.frames.initialize(obs)
 		self.ep_ret = np.zeros(num_envs)
+		best = -float("inf")
 		for iteration in range(1,num_iterations+1):
 			frac = 1.0 - (iteration-1)/num_iterations
 			self.optimizer.param_groups[0]["lr"] = frac * learning_rate
@@ -323,11 +340,17 @@ class Agent():
 			recent = [r for _,r in self.episodes[-20:]]
 			avg = np.mean(recent) if recent else float("nan")
 			std = self.actor.log_std.exp().item()
-			print(f"it {iteration:>3}/{num_iterations}  step {self.global_step:>7}  return(20) {avg:7.1f}  std {std:.2f}  ent_d {stats['ent_d']:.3f}  kl {stats['approx_kl']:.4f}  clip {stats['clipfrac']:.3f}  ratio0 {stats['ratio_check']:.1e}")
+			saved = ""
+			if len(recent) == 20 and avg > best:
+				best = avg
+				self.save("carracing_best.pt")
+				saved = "  *saved*"
+			print(f"it {iteration:>3}/{num_iterations}  step {self.global_step:>7}  return(20) {avg:7.1f}  std {std:.2f}  ent_d {stats['ent_d']:.3f}  kl {stats['approx_kl']:.4f}  clip {stats['clipfrac']:.3f}  ratio0 {stats['ratio_check']:.1e}{saved}")
+		self.save("carracing_last.pt")
 		self.envs.close()
 
 	def evaluate(self,n_episodes=5,render=True):
-		env = ActionRepeat(gym.make(self.env_name, render_mode="human" if render else None, **self.env_kwargs))
+		env = ActionRepeat(gym.make(self.env_name, render_mode="human" if render else None, **self.env_kwargs),patience=10**9)
 		frames = RunningBuffer(1,n_stack=self.n_stack,stepsize=1)
 		for ep in range(n_episodes):
 			obs, _ = env.reset(seed=1000+ep)
@@ -352,9 +375,7 @@ if __name__ == "__main__":
 	np.random.seed(seed)
 	agent = Agent("CarRacing-v3")
 	agent.train()
+	agent.load("carracing_best.pt")
 	agent.evaluate()
 
 
-
-
-	
