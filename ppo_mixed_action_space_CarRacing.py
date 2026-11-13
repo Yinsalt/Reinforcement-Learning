@@ -12,10 +12,10 @@ import gymnasium as gym
 
 N_STACK = K = 4
 H,W = 64,64
-num_envs = 32
-num_steps = 1024
+num_envs = 4
+num_steps = 128
 batch_size = num_envs*num_steps
-num_minibatches = 64
+num_minibatches = 4
 
 update_epochs = 4
 gamma = 0.999
@@ -211,7 +211,7 @@ def make_env(name,idx,env_kwargs,seed=seed):
 	return thunk
 
 def make_envs(name,env_kwargs,num_envs=num_envs,seed=seed):
-	return gym.vector.SyncVectorEnv([make_env(name,i,env_kwargs,seed) for i in range(num_envs)],
+	return gym.vector.AsyncVectorEnv([make_env(name,i,env_kwargs,seed) for i in range(num_envs)],
 				autoreset_mode=gym.vector.AutoresetMode.SAME_STEP)
 #############################################################################################################################
 
@@ -353,112 +353,6 @@ if __name__ == "__main__":
 	agent = Agent("CarRacing-v3")
 	agent.train()
 	agent.evaluate()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
