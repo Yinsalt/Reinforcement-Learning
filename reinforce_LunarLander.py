@@ -83,7 +83,7 @@ if __name__ == "__main__":
 				print(f"Episode {episodes:4d} | Score {scores[-1]:6.1f} | Avg{solve_window} {avg:6.1f}")
 			
 			if len(scores) == solve_window and avg > solve_score:
-				print(f"Gelöst nach {episodes} Episoden, Avg{solve_window} = {avg:.1f}")
+				print(f"Solved in {episodes} episodes, avg{solve_window} = {avg:.1f}")
 				break
 			
 			obs, _ = env.reset()
