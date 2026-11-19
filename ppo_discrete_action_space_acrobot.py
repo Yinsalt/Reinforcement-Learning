@@ -6,6 +6,7 @@ import numpy as np
 import gymnasium as gym
 
 
+
 num_envs = 16
 num_timesteps = 256
 num_total = num_envs*num_timesteps
