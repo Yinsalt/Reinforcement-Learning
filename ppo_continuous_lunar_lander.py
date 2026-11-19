@@ -6,6 +6,7 @@ import torch.optim as optim
 from torch.distributions import Normal
 
 
+
 num_envs = 16
 num_steps = 1024
 batch_size = num_envs*num_steps
