@@ -27,6 +27,7 @@ seed = 42
 DEVICE = torch.device("cpu")
 
 
+
 def make_env(name, idx, seed=seed):
 	def thunk():
 		env = gym.make(name)
