@@ -6,6 +6,7 @@ import numpy as np
 import gymnasium as gym
 
 
+
 num_envs = 16
 num_steps = 1024
 batch_size = num_envs*num_steps
