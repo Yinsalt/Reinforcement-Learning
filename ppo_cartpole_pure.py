@@ -9,6 +9,7 @@ gamma, gae_lambda = 0.99, 0.95
 clip_coef, vf_coef, ent_coef = 0.2, 0.5, 0.01
 iterations = 150
 
+
 envs = gym.vector.SyncVectorEnv([lambda: gym.make("CartPole-v1") for _ in range(N)],
 	autoreset_mode=gym.vector.AutoresetMode.SAME_STEP)
 obs_dim = envs.single_observation_space.shape[0]
