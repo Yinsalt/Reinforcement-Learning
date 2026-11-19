@@ -13,7 +13,7 @@ from collections import deque
 
 BATCH_SIZE = 512
 GAMMA = 0.99
-TOTAL_STEPS = 1_000_000
+TOTAL_STEPS = 100_000 # that's more than enough to make it sprint and get around ~4800 reward
 WARMUP_STEPS = 10_000
 HIDDEN_SIZE = 128
 LR_A = 3e-4
@@ -26,6 +26,23 @@ UPDATE_EVERY = 50
 ###########################################################################
 
 
+class NoFlip(gym.Wrapper):
+	def __init__(self, env, max_angle=1.6,flip_penalty=-3):
+		super().__init__(env)
+		self.flip_penalty = flip_penalty
+		self.max_angle = max_angle
+		
+	def step(self, action):
+		obs, reward, terminated, truncated, info = self.env.step(action)
+		flip=0
+		if abs(obs[1]) > self.max_angle:
+			flip=1
+			#terminated = True
+		return obs, reward+self.flip_penalty*flip, terminated, truncated, info
+
+
+
+###########################################################################
 
 def initialize_layer(layer, std=np.sqrt(2),bias=0):
 	nn.init.orthogonal_(layer.weight, gain=std)
@@ -283,7 +300,7 @@ class Agent():
 if __name__ == "__main__":
 
 	
-	env = gym.make("HalfCheetah-v5")
+	env = NoFlip(gym.make("HalfCheetah-v5"))
 	obs_size = env.observation_space.shape[0]
 	act_size = env.action_space.shape[0]
 	max_action = float(env.action_space.high[0]) 
@@ -335,7 +352,7 @@ if __name__ == "__main__":
 	env.close()
 	torch.save(agent.actor.state_dict(),"ddpg_cheetah_actor.pt")
 	
-	env = gym.make("HalfCheetah-v5",render_mode="human")
+	env = NoFlip(gym.make("HalfCheetah-v5",render_mode="human"))
 	agent.set_eval()
 	for ep in range(RENDER_EPISODES):
 		obs, _ = env.reset()
@@ -347,5 +364,9 @@ if __name__ == "__main__":
 			total += reward
 		print(f"Render-Episode {ep+1}: {total:.1f}")
 	env.close()
+
+
+
+
 
 
