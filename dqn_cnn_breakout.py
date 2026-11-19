@@ -12,6 +12,7 @@ from torch.utils.tensorboard import SummaryWriter
 
 gym.register_envs(ale_py)
 
+
 #######################################################################################################################
 
 ENV_ID = "ALE/Breakout-v5"
