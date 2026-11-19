@@ -36,7 +36,7 @@ Every file is self-contained. Run it, it trains, and at the end it renders the t
 - [x] DDPG
 - [ ] A2C
 - [ ] A3C
-- [ ] TD3
+- [x] TD3
 - [ ] TRPO
 - [ ] Rainbow
 - [ ] D4PG
