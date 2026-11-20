@@ -40,7 +40,7 @@ Every file is self-contained. Run it, it trains, and at the end it renders the t
 - [ ] TRPO
 - [ ] Rainbow
 - [ ] D4PG
-- [ ] SAC
+- [x] SAC
 - [ ] MADDPG
 
 ## Tutorials
