@@ -2,6 +2,17 @@
 
 From-scratch implementations of reinforcement learning algorithms in PyTorch.
 
+<table>
+  <tr>
+    <td align="center"><img src="assets/hum.gif" width="400"><br><sub>SAC on Humanoid-v5</sub></td>
+    <td align="center"><img src="assets/ppo.gif" width="400"><br><sub>PPO on LunarLander-v3 (continuous)</sub></td>
+  </tr>
+  <tr>
+    <td align="center"><img src="assets/halfcheetah.gif" width="400"><br><sub>DDPG on HalfCheetah-v5</sub></td>
+    <td align="center"><img src="assets/ant.gif" width="400"><br><sub>TD3 on Ant-v5</sub></td>
+  </tr>
+</table>
+
 ## Why
 
 Many of these are built directly from the original papers, not adapted from existing code. Using a library tells you that an algorithm works. Writing it yourself shows you why, and where it breaks.
@@ -25,7 +36,9 @@ Every file is self-contained. Run it, it trains, and at the end it renders the t
 | `ppo_continuous_action_space_walker.py` | PPO | BipedalWalker-v3 | Continuous actions, running observation normalization |
 | `ppo_mixed_action_space_CarRacing.py` | PPO | CarRacing-v3 | Mixed action space (Gaussian steering + categorical pedals), CNN on stacked frames |
 | `dqn_cnn_breakout.py` | Double DQN | ALE/Breakout-v5 | CNN, replay buffer, Atari wrappers, TensorBoard logging |
-| `ddpg_halfCheetah.py` | DDPG | HalfCheetah-v5 (MuJoCo) | OU noise, soft target updates, residual blocks |
+| `ddpg_halfCheetah.py` | DDPG | HalfCheetah-v5 (MuJoCo) | OU noise, soft target updates, residual blocks, flip penalty wrapper |
+| `td3_ant.py` | TD3 | Ant-v5 (MuJoCo) | Twin critics, delayed policy updates, target policy smoothing |
+| `sac_3d.py` | SAC | Humanoid-v5 (MuJoCo) | Squashed Gaussian policy, twin critics, automatic entropy tuning, residual blocks with LayerNorm |
 
 ## Roadmap
 
@@ -57,7 +70,7 @@ Some environments need extras:
 
 ```bash
 pip install "gymnasium[box2d]"    # LunarLander, BipedalWalker, CarRacing
-pip install "gymnasium[mujoco]"   # HalfCheetah
+pip install "gymnasium[mujoco]"   # HalfCheetah, Ant, Humanoid
 pip install ale-py                # Breakout
 pip install torchvision           # CarRacing
 pip install tensorboard           # DQN logging
