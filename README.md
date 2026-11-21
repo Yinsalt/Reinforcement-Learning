@@ -48,7 +48,7 @@ Every file is self-contained. Run it, it trains, and at the end it renders the t
 - [x] DQN / Double DQN
 - [x] DDPG
 - [x] A2C
-- [ ] A3C
+- [x] A3C
 - [x] TD3
 - [ ] TRPO
 - [ ] Rainbow
