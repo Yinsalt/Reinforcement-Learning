@@ -76,3 +76,26 @@ pip install torchvision           # CarRacing
 pip install tensorboard           # DQN logging
 pip install matplotlib            # PPO CartPole plots
 ```
+
+## Papers
+
+| Algorithm | Paper |
+|---|---|
+| REINFORCE | [Williams, 1992. Simple Statistical Gradient-Following Algorithms for Connectionist Reinforcement Learning](https://doi.org/10.1007/BF00992696) |
+| Actor-Critic | [Barto, Sutton, Anderson, 1983. Neuronlike Adaptive Elements That Can Solve Difficult Learning Control Problems](https://doi.org/10.1109/TSMC.1983.6313077) |
+| | [Konda, Tsitsiklis, 1999. Actor-Critic Algorithms](https://papers.nips.cc/paper/1786-actor-critic-algorithms) |
+| DQN | [Mnih et al., 2013. Playing Atari with Deep Reinforcement Learning](https://arxiv.org/abs/1312.5602) |
+| | [Mnih et al., 2015. Human-level control through deep reinforcement learning](https://doi.org/10.1038/nature14236) |
+| Double DQN | [van Hasselt, Guez, Silver, 2015. Deep Reinforcement Learning with Double Q-learning](https://arxiv.org/abs/1509.06461) |
+| Rainbow | [Hessel et al., 2017. Rainbow: Combining Improvements in Deep Reinforcement Learning](https://arxiv.org/abs/1710.02298) |
+| TRPO | [Schulman et al., 2015. Trust Region Policy Optimization](https://arxiv.org/abs/1502.05477) |
+| GAE | [Schulman et al., 2015. High-Dimensional Continuous Control Using Generalized Advantage Estimation](https://arxiv.org/abs/1506.02438) |
+| PPO | [Schulman et al., 2017. Proximal Policy Optimization Algorithms](https://arxiv.org/abs/1707.06347) |
+| A3C / A2C | [Mnih et al., 2016. Asynchronous Methods for Deep Reinforcement Learning](https://arxiv.org/abs/1602.01783) |
+| | [OpenAI, 2017. OpenAI Baselines: ACKTR & A2C](https://openai.com/index/openai-baselines-acktr-a2c/) |
+| DDPG | [Lillicrap et al., 2015. Continuous control with deep reinforcement learning](https://arxiv.org/abs/1509.02971) |
+| TD3 | [Fujimoto, van Hoof, Meger, 2018. Addressing Function Approximation Error in Actor-Critic Methods](https://arxiv.org/abs/1802.09477) |
+| D4PG | [Barth-Maron et al., 2018. Distributed Distributional Deterministic Policy Gradients](https://arxiv.org/abs/1804.08617) |
+| SAC (v1) | [Haarnoja et al., 2018. Soft Actor-Critic: Off-Policy Maximum Entropy Deep RL with a Stochastic Actor](https://arxiv.org/abs/1801.01290) |
+| SAC (v2) | [Haarnoja et al., 2018. Soft Actor-Critic Algorithms and Applications](https://arxiv.org/abs/1812.05905) |
+| MADDPG | [Lowe et al., 2017. Multi-Agent Actor-Critic for Mixed Cooperative-Competitive Environments](https://arxiv.org/abs/1706.02275) |
