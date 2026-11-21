@@ -1,6 +1,6 @@
-# RL from Scratch
+# [2026/2027 Edition] RL from Scratch
 
-From-scratch implementations of reinforcement learning algorithms in PyTorch.
+From-scratch implementations of reinforcement learning algorithms in PyTorch. With recent versions of torch, gymnasium, numpy and mujoco!
 
 <table>
   <tr>
