@@ -1,6 +1,6 @@
 # [2026/2027 Edition] RL from Scratch
 
-From-scratch implementations of reinforcement learning algorithms in PyTorch. With recent versions of torch, gymnasium, numpy and mujoco!
+From-scratch implementations of reinforcement learning algorithms in PyTorch. With recent versions of PyTorch, Gymnasium, NumPy and MuJoCo!
 
 <table>
   <tr>
@@ -29,6 +29,8 @@ Every file is self-contained. Run it, it trains, and at the end it renders the t
 | `reinforce_LunarLander.py` | REINFORCE | LunarLander-v3 | Same algorithm on a harder task |
 | `vanilla_AC_cartpole.py` | Actor-Critic | CartPole-v1 | One-step TD advantage, separate actor and critic |
 | `entropy_AC_frozenLake.py` | Actor-Critic + entropy bonus | FrozenLake-v1 (8x8) | Sparse reward, entropy term keeps exploration alive |
+| `A2C_CartPole-v1.py` | A2C | CartPole-v1 | Synchronous, 32 vectorized envs, GAE, entropy bonus, bootstrapping on truncation |
+| `A3C_LunarLander-v3.py` | A3C | LunarLander-v3 | Asynchronous workers via `torch.multiprocessing`, lock-free (Hogwild) updates, shared Adam, n-step returns |
 | `ppo_cartpole_pure.py` | PPO | CartPole-v1 | Minimal version, under 80 lines |
 | `ppo_cartpole.py` | PPO | CartPole-v1 | Full version with checkpoints, diagnostics (KL, clip fraction, explained variance) and plots |
 | `ppo_discrete_action_space_acrobot.py` | PPO | Acrobot-v1 | Discrete actions |
@@ -64,7 +66,7 @@ Once enough algorithms and environments are covered, I will start recording vide
 
 - Python 3
 - PyTorch
-- Gymnasium
+- Gymnasium 1.1 or newer (`A2C_CartPole-v1.py` uses `AutoresetMode`, which was added in 1.1)
 
 Some environments need extras:
 
